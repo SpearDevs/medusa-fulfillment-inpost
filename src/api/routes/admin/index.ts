@@ -10,6 +10,8 @@ export default function adminRoutes(
 ) {
   const adminRouter = Router();
 
+  adminRouter.use(authenticate());
+
   router.use('/admin/inpost', adminRouter);
   router.use(bodyParser.json());
 
@@ -20,7 +22,6 @@ export default function adminRoutes(
     credentials: true,
   }
 
-  adminRouter.use(authenticate());
 
   adminRouter.options('/', cors(corsOptions));
 
@@ -28,7 +29,7 @@ export default function adminRoutes(
     const inpostFulfillmentService: InpostFulfillmentService = req.scope.resolve(
       'inpostFulfillmentService'
     );
-    
+
     return res.json(await inpostFulfillmentService.getFulfillmentOptions());
   });
 
@@ -46,7 +47,7 @@ export default function adminRoutes(
     );
 
     const { point_id } = req.params;
-    
+
     return res.json(await inpostFulfillmentService.getPoint(point_id));
   });
 
@@ -54,7 +55,7 @@ export default function adminRoutes(
     const inpostFulfillmentService: InpostFulfillmentService = req.scope.resolve(
       'inpostFulfillmentService'
     );
-    
+
     return res.json(await inpostFulfillmentService.getShipments());
   });
 
@@ -64,7 +65,7 @@ export default function adminRoutes(
     );
 
     const { shipment_id } = req.params;
-    
+
     return res.json(await inpostFulfillmentService.getShipment(shipment_id));
   });
 
@@ -74,7 +75,7 @@ export default function adminRoutes(
     );
 
     const data = req.body;
-    
+
     return res.json(await inpostFulfillmentService.createShipment(data));
   });
 
@@ -86,7 +87,7 @@ export default function adminRoutes(
     const { shipment_id } = req.params;
 
     const data = req.body;
-    
+
     return res.json(await inpostFulfillmentService.updateShipment(shipment_id, data));
   });
 
@@ -96,7 +97,7 @@ export default function adminRoutes(
     );
 
     const { shipment_id } = req.params;
-    
+
     return res.json(await inpostFulfillmentService.cancelShipment(shipment_id));
   });
 
