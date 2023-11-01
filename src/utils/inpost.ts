@@ -89,7 +89,7 @@ class Inpost {
       create: async (data) => {
         try {
           const path = `/v1/organizations/${this.organizationId_}/shipments`;
-          
+
           return await this.client_({
             method: "POST",
             url: path,
