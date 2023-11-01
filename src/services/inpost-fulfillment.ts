@@ -1,15 +1,15 @@
 import {
-  AbstractFulfillmentService, 
-  Cart, 
-  Fulfillment, 
-  LineItem, 
+  AbstractFulfillmentService,
+  Cart,
+  Fulfillment,
+  LineItem,
   Order,
- } from "@medusajs/medusa";
+} from "@medusajs/medusa";
 import { CreateReturnType } from "@medusajs/medusa/dist/types/fulfillment-provider";
 import Inpost from "../utils/inpost";
 
 class InpostFulfillmentService extends AbstractFulfillmentService {
-  static identifier = "inpost"
+  static identifier = "inpost-fulfillment"
   client_: Inpost;
 
   constructor(
@@ -25,7 +25,7 @@ class InpostFulfillmentService extends AbstractFulfillmentService {
       token: process.env.INPOST_TOKEN,
     })
   }
-  
+
   async getPoints(): Promise<any> {
     return await this.client_.points_.list();
   }
@@ -56,12 +56,12 @@ class InpostFulfillmentService extends AbstractFulfillmentService {
 
   async getFulfillmentOptions(): Promise<any> {
     const clientTest = await this.client_.getAnyInfo();
-    
+
     return await clientTest.create({});
   }
 
   async validateFulfillmentData(
-    optionData: { [x: string]: unknown }, 
+    optionData: { [x: string]: unknown },
     data: { [x: string]: unknown },
     cart: Cart
   ): Promise<Record<string, unknown>> {
@@ -79,7 +79,7 @@ class InpostFulfillmentService extends AbstractFulfillmentService {
   ): Promise<boolean> {
     throw new Error("Method not implemented.")
   }
-  
+
   async calculatePrice(
     optionData: { [x: string]: unknown },
     data: { [x: string]: unknown },
@@ -89,9 +89,9 @@ class InpostFulfillmentService extends AbstractFulfillmentService {
   }
 
   async createFulfillment(
-    data: { [x: string]: unknown }, 
-    items: LineItem[], 
-    order: Order, 
+    data: { [x: string]: unknown },
+    items: LineItem[],
+    order: Order,
     fulfillment: Fulfillment
   ): Promise<any> {
     throw new Error("Method not implemented.")
@@ -128,7 +128,7 @@ class InpostFulfillmentService extends AbstractFulfillmentService {
   }
 
   async retrieveDocuments(
-    fulfillmentData: Record<string, unknown>, 
+    fulfillmentData: Record<string, unknown>,
     documentType: "invoice" | "label"
   ): Promise<any> {
     throw new Error("Method not implemented.")
