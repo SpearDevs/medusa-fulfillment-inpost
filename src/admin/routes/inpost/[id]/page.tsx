@@ -1,14 +1,33 @@
 import { useParams } from 'react-router-dom';
-import { useAdminCustomQuery } from 'medusa-react';
+import { useAdminCustomQuery, useAdminCustomDelete } from 'medusa-react';
 import { useNavigate } from 'react-router-dom';
-import { Container } from '@medusajs/ui';
+import { Container, Button } from '@medusajs/ui';
+
+const CancelShipmentButton = ({ shipmentStatus, onClick }) => {
+  const allowedStatuses = ['offer_selected', 'offer_canceled'];
+
+  if (!allowedStatuses.includes(shipmentStatus)) {
+    return (
+      <Button onClick={onClick} variant="danger">
+        Cancel shipment
+      </Button>
+    );
+  }
+
+  return;
+};
 
 const InpostSingleShipmentPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { data: shipment, isLoading, isError } = useAdminCustomQuery(`/inpost/shipments/${id}`, ['shipment', id]);
+  const { mutate: deleteShipment } = useAdminCustomDelete(`/inpost/shipments/${id}`, ['shipmentDelete', id]);
 
-  const navigate = useNavigate();
+  const handleDeleteClick = () => {
+    deleteShipment();
+    navigate('..');
+  };
 
   if (isLoading) {
     return <Container>Loading...</Container>;
@@ -20,11 +39,15 @@ const InpostSingleShipmentPage = () => {
 
   return (
     <>
-      <button className="px-small py-xsmall mb-xsmall" onClick={() => navigate('..')}>
-        <div className="gap-x-xsmall text-grey-50 inter-grey-40 inter-small-semibold flex items-center">
-          <span className="ml-1">Back to Shipments</span>
-        </div>
-      </button>
+      <div className="flex justify-between items-center">
+        <button className="px-small py-xsmall mb-xsmall" onClick={() => navigate('..')}>
+          <div className="gap-x-xsmall text-grey-50 inter-grey-40 inter-small-semibold flex items-center">
+            <span className="ml-1">Back to Shipments</span>
+          </div>
+        </button>
+
+        <CancelShipmentButton onClick={handleDeleteClick} shipmentStatus={shipment.status} />
+      </div>
 
       <div className="gap-x-base grid grid-cols-12">
         <div className="gap-y-xsmall col-span-8 flex flex-col">
