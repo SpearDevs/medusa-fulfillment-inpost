@@ -13,11 +13,15 @@
       "email" : "igorserwin@speardevs.com"
     }
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SpearDevs/medusa-fulfillment-inpost.git"
+  },
   "license": "MIT",
   "keywords": [
     "inpost",
     "medusa-plugin",
-    "medusa-plugin-fulfillment",
+    "medusa-plugin-shipping",
     "ecommerce",
     "headless",
     "medusa"
