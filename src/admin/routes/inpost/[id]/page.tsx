@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useAdminCustomQuery, useAdminCustomDelete } from 'medusa-react';
+import { useAdminCustomQuery } from 'medusa-react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Button } from '@medusajs/ui';
 
@@ -22,12 +22,6 @@ const InpostSingleShipmentPage = () => {
   const navigate = useNavigate();
 
   const { data: shipment, isLoading, isError } = useAdminCustomQuery(`/inpost/shipments/${id}`, ['shipment', id]);
-  const { mutate: deleteShipment } = useAdminCustomDelete(`/inpost/shipments/${id}`, ['shipmentDelete', id]);
-
-  const handleDeleteClick = () => {
-    deleteShipment();
-    navigate('..');
-  };
 
   if (isLoading) {
     return <Container>Loading...</Container>;
@@ -45,8 +39,6 @@ const InpostSingleShipmentPage = () => {
             <span className="ml-1">Back to Shipments</span>
           </div>
         </button>
-
-        <CancelShipmentButton onClick={handleDeleteClick} shipmentStatus={shipment.status} />
       </div>
 
       <div className="gap-x-base grid grid-cols-12">
