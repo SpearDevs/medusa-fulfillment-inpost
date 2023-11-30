@@ -1,5 +1,5 @@
-import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
-import InpostFulfillmentService from '../../../../../services/inpost-fulfillment';
+import { MedusaRequest, MedusaResponse } from "@medusajs/medusa"
+import InpostFulfillmentService from '../../../../../services/inpost-fulfillment'
 
 export async function GET(
   req: MedusaRequest,
@@ -7,9 +7,20 @@ export async function GET(
 ): Promise<any> {
   const inpostFulfillmentService: InpostFulfillmentService = req.scope.resolve(
     'inpostFulfillmentService'
-  );
+  )
 
   const { id } = req.params
 
-  res.json(await inpostFulfillmentService.getPoint(id));
+  try {
+    const point = await inpostFulfillmentService.getPoint(id)
+
+    res.json(point)
+  } catch (error) {
+    const { status, data } = error.response || { status: 500, data: {} }
+
+    res.status(status).json({
+      error: data.error,
+      message: data.message,
+    })
+  }
 }
