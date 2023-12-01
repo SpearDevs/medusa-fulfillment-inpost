@@ -1,15 +1,28 @@
-import { MedusaRequest, MedusaResponse } from "@medusajs/medusa";
-import InpostFulfillmentService from '../../../../services/inpost-fulfillment';
+import { MedusaRequest, MedusaResponse } from "@medusajs/medusa"
+import InpostFulfillmentService from "../../../../services/inpost-fulfillment"
 
 export async function GET(
   req: MedusaRequest,
   res: MedusaResponse
 ): Promise<any> {
   const inpostFulfillmentService: InpostFulfillmentService = req.scope.resolve(
-    'inpostFulfillmentService'
-  );
+    "inpostFulfillmentService"
+  )
 
-  res.json(await inpostFulfillmentService.getShipments());
+  try {
+    const { page } = req.query
+
+    const shipments = await inpostFulfillmentService.getShipments({ page })
+
+    res.json(shipments)
+  } catch (error) {
+    const { status, data } = error.response || { status: 500, data: {} }
+
+    res.status(status).json({
+      error: data.error,
+      message: data.message,
+    })
+  }
 }
 
 export async function POST(
@@ -17,10 +30,21 @@ export async function POST(
   res: MedusaResponse
 ): Promise<any> {
   const inpostFulfillmentService: InpostFulfillmentService = req.scope.resolve(
-    'inpostFulfillmentService'
-  );
+    "inpostFulfillmentService"
+  )
 
-  const data = req.body;
+  const data = req.body
 
-  res.json(await inpostFulfillmentService.createShipment(data));
+  try {
+    const createdShipment = await inpostFulfillmentService.createShipment(data)
+
+    res.json(createdShipment)
+  } catch (error) {
+    const { status, data } = error.response || { status: 500, data: {} }
+
+    res.status(status).json({
+      error: data.error,
+      message: data.message,
+    })
+  }
 }

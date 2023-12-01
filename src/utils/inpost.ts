@@ -1,42 +1,54 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios"
+
+interface Config {
+  baseUrl: string
+  token: string
+  organizationId: string
+}
+
+interface PointMethods {
+  list: () => Promise<any>
+  retrieve: (id: any) => Promise<any>
+}
+
+interface ShipmentMethods {
+  list: (query?: any) => Promise<any>
+  retrieve: (id: any) => Promise<any>
+  create: (data: any) => Promise<any>
+  update: (id: any, data: any) => Promise<any>
+  cancel: (id: any) => Promise<any>
+}
 
 class Inpost {
-  baseUrl_: string;
-  organizationId_: string;
-  token_: string;
-  client_: AxiosInstance;
-  points_: any;
-  shipments_: { list: () => Promise<any>; retrieve: (id: any) => Promise<any>; create: (data: any) => Promise<any>; update: (id: any, data: any) => Promise<any>; cancel: (id: any) => Promise<any>; };
+  client: AxiosInstance
+  config: Config
+  points: PointMethods
+  shipments: ShipmentMethods
 
-  constructor({ baseUrl, organizationId, token }) {
-    this.baseUrl_ = baseUrl;
-
-    this.organizationId_ = organizationId;
-
-    this.token_ = token;
-
-    this.client_ = axios.create({
-      baseURL: baseUrl,
+  constructor(config: Config) {
+    /** @private @constant {AxiosInstance} */
+    this.client = axios.create({
+      baseURL: config.baseUrl,
       headers: {
         "content-type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${config.token}`,
       },
-    });
+    })
 
-    this.points_ = this.buildPointsEndpoints_();
+    /** @private @constant {Config} */
+    this.config = config
 
-    this.shipments_ = this.buildShipmentsEndpoints_();
+    this.points = this.buildPointsEndpoints_()
+
+    this.shipments = this.buildShipmentsEndpoints_()
   }
-
-  // async request(data) {
-  //   return this.client_(data).then(({ data }) => data);
-  // }
 
   getAnyInfo = () => {
     return {
       create: async (data) => {
-        const path = `/v1/organizations/${this.organizationId_}`;
-        return this.client_({
+        const path = `/v1/organizations/${this.config.organizationId}`
+
+        return this.client({
           method: "GET",
           url: path,
           data: {
@@ -50,72 +62,72 @@ class Inpost {
   buildPointsEndpoints_ = () => {
     return {
       list: async () => {
-        const path = "/v1/points?type=parcel_locker";
+        const path = "/v1/points?type=parcel_locker"
 
-        return await this.client_({
+        return await this.client({
           method: "GET",
           url: path,
-        }).then(({ data }) => data);
+        }).then(({ data }) => data)
       },
       retrieve: async (id) => {
-        const path = `/v1/points/${id}?type=parcel_locker`;
+        const path = `/v1/points/${id}?type=parcel_locker`
 
-        return await this.client_({
+        return await this.client({
           method: "GET",
           url: path,
-        }).then(({ data }) => data);
+        }).then(({ data }) => data)
       }
     }
   }
 
   buildShipmentsEndpoints_ = () => {
     return {
-      list: async () => {
-        const path = `/v1/organizations/${this.organizationId_}/shipments`;
+      list: async (query?) => {
+        const path = `/v1/organizations/${this.config.organizationId}/shipments`
 
-        return await this.client_({
+        return await this.client({
           method: "GET",
           url: path,
-        }).then(({ data }) => data);
+          params: query,
+        }).then(({ data }) => data)
       },
       retrieve: async (id) => {
-        const path = `/v1/shipments/${id}`;
+        const path = `/v1/shipments/${id}`
 
-        return await this.client_({
+        return await this.client({
           method: "GET",
           url: path,
-        }).then(({ data }) => data);
+        }).then(({ data }) => data)
       },
       create: async (data) => {
-        try {
-          const path = `/v1/organizations/${this.organizationId_}/shipments`;
+        const path = `/v1/organizations/${this.config.organizationId}/shipments`
 
-          return await this.client_({
-            method: "POST",
-            url: path,
-            data: {
-              ...data
-            }
-          }).then(({ data }) => data);
-        } catch (error) {
-          console.error(error);
-        }
+        return await this.client({
+          method: "POST",
+          url: path,
+          data: {
+            ...data
+          }
+        }).then(({ data }) => data)
       },
       update: async (id, data) => {
-        const path = `/v1/shipments/${id}`;
+        const path = `/v1/shipments/${id}`
 
-        return await this.client_({
+        return await this.client({
           method: "PUT",
           url: path,
-        }).then(({ data }) => data);
+          data: {
+            ...data
+          },
+        }).then(({ data }) => data)
       },
       cancel: async (id) => {
-        const path = `/v1/shipments/${id}`;
+        const path = `/v1/shipments/${id}`
 
-        return await this.client_({
+        return await this.client({
           method: "DELETE",
           url: path,
-        }).then(({ data }) => data);
+        }).then(({ data }) => data)
       }
     }
   }
@@ -239,4 +251,4 @@ class Inpost {
   // }
 }
 
-export default Inpost;
+export default Inpost
