@@ -36,7 +36,7 @@ class Inpost {
     })
 
     /** @private @constant {Config} */
-    this.config = { ...config }
+    this.config = config
 
     this.points = this.buildPointsEndpoints_()
 
@@ -116,6 +116,9 @@ class Inpost {
         return await this.client({
           method: "PUT",
           url: path,
+          data: {
+            ...data
+          },
         }).then(({ data }) => data)
       },
       cancel: async (id) => {

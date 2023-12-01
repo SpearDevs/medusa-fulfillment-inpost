@@ -1,27 +1,17 @@
-import { useParams } from 'react-router-dom';
-import { useAdminCustomQuery } from 'medusa-react';
-import { useNavigate } from 'react-router-dom';
-import { Container, Button } from '@medusajs/ui';
-
-const CancelShipmentButton = ({ shipmentStatus, onClick }) => {
-  const allowedStatuses = ['offer_selected', 'offer_canceled'];
-
-  if (!allowedStatuses.includes(shipmentStatus)) {
-    return (
-      <Button onClick={onClick} variant="danger">
-        Cancel shipment
-      </Button>
-    );
-  }
-
-  return;
-};
+import { useParams } from "react-router-dom";
+import { useAdminCustomQuery } from "medusa-react";
+import { useNavigate } from "react-router-dom";
+import { Container } from "@medusajs/ui";
 
 const InpostSingleShipmentPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: shipment, isLoading, isError } = useAdminCustomQuery(`/inpost/shipments/${id}`, ['shipment', id]);
+  const {
+    data: shipment,
+    isLoading,
+    isError,
+  } = useAdminCustomQuery(`/inpost/shipments/${id}`, ["shipment", id]);
 
   if (isLoading) {
     return <Container>Loading...</Container>;
@@ -34,7 +24,10 @@ const InpostSingleShipmentPage = () => {
   return (
     <>
       <div className="flex justify-between items-center">
-        <button className="px-small py-xsmall mb-xsmall" onClick={() => navigate('..')}>
+        <button
+          className="px-small py-xsmall mb-xsmall"
+          onClick={() => navigate("..")}
+        >
           <div className="gap-x-xsmall text-grey-50 inter-grey-40 inter-small-semibold flex items-center">
             <span className="ml-1">Back to Shipments</span>
           </div>
@@ -80,9 +73,12 @@ const InpostSingleShipmentPage = () => {
 
               {Object.entries(shipment.receiver).map(([key, value]) => {
                 return (
-                  <div key={key} className="inter-base-regular text-grey-50 flex items-center justify-between">
+                  <div
+                    key={key}
+                    className="inter-base-regular text-grey-50 flex items-center justify-between"
+                  >
                     <p className="capitalize">{key}</p>
-                    <p>{value != null ? value.toString() : '-'}</p>
+                    <p>{value != null ? value.toString() : "-"}</p>
                   </div>
                 );
               })}

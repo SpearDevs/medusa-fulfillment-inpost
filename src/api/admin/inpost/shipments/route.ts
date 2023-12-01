@@ -1,12 +1,12 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/medusa"
-import InpostFulfillmentService from '../../../../services/inpost-fulfillment'
+import InpostFulfillmentService from "../../../../services/inpost-fulfillment"
 
 export async function GET(
   req: MedusaRequest,
   res: MedusaResponse
 ): Promise<any> {
   const inpostFulfillmentService: InpostFulfillmentService = req.scope.resolve(
-    'inpostFulfillmentService'
+    "inpostFulfillmentService"
   )
 
   try {
@@ -30,7 +30,7 @@ export async function POST(
   res: MedusaResponse
 ): Promise<any> {
   const inpostFulfillmentService: InpostFulfillmentService = req.scope.resolve(
-    'inpostFulfillmentService'
+    "inpostFulfillmentService"
   )
 
   const data = req.body

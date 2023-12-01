@@ -1,10 +1,13 @@
-import type { WidgetConfig, OrderDetailsWidgetProps } from '@medusajs/admin';
-import { useAdminCustomQuery } from 'medusa-react';
-import { Container } from '@medusajs/ui';
+import type { WidgetConfig, OrderDetailsWidgetProps } from "@medusajs/admin";
+import { useAdminCustomQuery } from "medusa-react";
+import { Container } from "@medusajs/ui";
 
 const ParcelDetails = ({ shippingMethod }) => {
   const targetPoint = shippingMethod.data.target_point;
-  const { data: point, isError } = useAdminCustomQuery(`/inpost/points/${targetPoint}`, ['point', targetPoint]);
+  const { data: point, isError } = useAdminCustomQuery(
+    `/inpost/points/${targetPoint}`,
+    ["point", targetPoint]
+  );
 
   if (!point || isError) return null;
 
@@ -15,17 +18,23 @@ const ParcelDetails = ({ shippingMethod }) => {
       <h1 className="inter-xlarge-semibold text-grey-90 mb-2">Paczkomat</h1>
 
       <div className="flex items-center gap-3">
-        <img src={image_url} alt="Inpost Point" className="w-28 h-28 object-cover rounded-md" />
+        <img
+          src={image_url}
+          alt="Inpost Point"
+          className="w-28 h-28 object-cover rounded-md"
+        />
 
         <div className="text-gray-600 flex flex-col">
           <strong>{name}</strong>
 
           <p>
-            {address_details?.post_code}, {address_details?.city}, {address_details?.province}
+            {address_details?.post_code}, {address_details?.city},{" "}
+            {address_details?.province}
           </p>
 
           <p>
-            {address_details?.street}, {address_details?.building_number}, {address_details?.flat_number}
+            {address_details?.street}, {address_details?.building_number},{" "}
+            {address_details?.flat_number}
           </p>
 
           <p>{opening_hours}</p>
@@ -36,7 +45,10 @@ const ParcelDetails = ({ shippingMethod }) => {
 };
 
 const ShipmentDetails = ({ shipmentId }) => {
-  const { data: shipment, isError } = useAdminCustomQuery(`/inpost/shipments/${shipmentId}`, ['shipment', shipmentId]);
+  const { data: shipment, isError } = useAdminCustomQuery(
+    `/inpost/shipments/${shipmentId}`,
+    ["shipment", shipmentId]
+  );
 
   if (!shipment || isError) return null;
 
@@ -66,8 +78,12 @@ const ShipmentDetails = ({ shipmentId }) => {
 };
 
 const InpostWidget = ({ order }: OrderDetailsWidgetProps) => {
-  const inpostShippingMethods = order.shipping_methods.filter((method) => method.shipping_option.data?.id === 'Parcel Locker');
-  const inpostFulfilments = order.fulfillments.filter((fulfillment) => fulfillment.data?.shipmentId);
+  const inpostShippingMethods = order.shipping_methods.filter(
+    (method) => method.shipping_option.data?.id === "Parcel Locker"
+  );
+  const inpostFulfilments = order.fulfillments.filter(
+    (fulfillment) => fulfillment.data?.shipmentId
+  );
 
   if (inpostShippingMethods.length === 0) return null;
 
@@ -82,7 +98,10 @@ const InpostWidget = ({ order }: OrderDetailsWidgetProps) => {
           <h1 className="inter-xlarge-semibold text-grey-90">Shipments</h1>
 
           {inpostFulfilments.map((fulfillment, index) => (
-            <ShipmentDetails key={index} shipmentId={fulfillment.data.shipmentId} />
+            <ShipmentDetails
+              key={index}
+              shipmentId={fulfillment.data.shipmentId}
+            />
           ))}
         </Container>
       )}
@@ -91,7 +110,7 @@ const InpostWidget = ({ order }: OrderDetailsWidgetProps) => {
 };
 
 export const config: WidgetConfig = {
-  zone: 'order.details.after',
+  zone: "order.details.after",
 };
 
 export default InpostWidget;

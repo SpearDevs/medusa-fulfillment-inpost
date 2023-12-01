@@ -20,9 +20,7 @@ class InpostFulfillmentService extends AbstractFulfillmentService {
 
     this.options = options
 
-    if (!options.default_template) {
-      this.options.default_template = "medium"
-    }
+    this.options.default_template ||= process.env.INPOST_DEFAULT_TEMPLATE
 
     /** @private @const {AxiosClient} */
     this.inpost = new Inpost({
@@ -57,10 +55,7 @@ class InpostFulfillmentService extends AbstractFulfillmentService {
       throw new Error("Invalid data")
     }
 
-    return {
-      target_point: "KRA012",
-      ...data,
-    }
+    return data
   }
 
   async validateOption(

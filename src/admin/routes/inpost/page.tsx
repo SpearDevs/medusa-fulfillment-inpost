@@ -1,15 +1,16 @@
-import { RouteConfig } from '@medusajs/admin';
-import { useAdminCustomQuery } from 'medusa-react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Container, Table, IconButton } from '@medusajs/ui';
-import { ArrowDownCircle } from '@medusajs/icons';
+import { RouteConfig } from "@medusajs/admin";
+import { useAdminCustomQuery } from "medusa-react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Container, Table, IconButton } from "@medusajs/ui";
+import { ArrowDownCircle } from "@medusajs/icons";
 
 const InpostShipmentsPage = () => {
   let [searchParams, setSearchParams] = useSearchParams();
 
   const params = Object.fromEntries(searchParams.entries());
 
-  const { data, isLoading, isError, refetch, isRefetching } = useAdminCustomQuery(`/inpost/shipments`, ['shipments'], params);
+  const { data, isLoading, isError, refetch, isRefetching } =
+    useAdminCustomQuery(`/inpost/shipments`, ["shipments"], params);
 
   const navigate = useNavigate();
 
@@ -21,13 +22,18 @@ const InpostShipmentsPage = () => {
     return <Container>Error</Container>;
   }
 
-  const { items: shipments, count: shipmentsCount, per_page: perPage, page } = data;
+  const {
+    items: shipments,
+    count: shipmentsCount,
+    per_page: perPage,
+    page,
+  } = data;
 
   const updatePage = (delta: number) => {
     const updatedParams = new URLSearchParams(searchParams);
-    const currentPage = parseInt(params.page || '1');
+    const currentPage = parseInt(params?.page) || 1;
 
-    updatedParams.set('page', (currentPage + delta).toString());
+    updatedParams.set("page", (currentPage + delta).toString());
     setSearchParams(updatedParams);
   };
 
@@ -39,7 +45,11 @@ const InpostShipmentsPage = () => {
       <div className="flex justify-between mb-2">
         <h1 className="inter-large-semibold">Inpost Shipments</h1>
 
-        <IconButton variant="transparent" onClick={() => refetch()} isLoading={isRefetching}>
+        <IconButton
+          variant="transparent"
+          onClick={() => refetch()}
+          isLoading={isRefetching}
+        >
           <ArrowDownCircle />
         </IconButton>
       </div>
@@ -59,7 +69,11 @@ const InpostShipmentsPage = () => {
             const date = new Date(shipment.created_at);
 
             return (
-              <Table.Row key={shipment.id} className="cursor-pointer" onClick={() => navigate(`${shipment.id}`)}>
+              <Table.Row
+                key={shipment.id}
+                className="cursor-pointer"
+                onClick={() => navigate(`${shipment.id}`)}
+              >
                 <Table.Cell>{shipment.id}</Table.Cell>
                 <Table.Cell>{shipment.status}</Table.Cell>
                 <Table.Cell>{shipment.receiver.email}</Table.Cell>
@@ -86,7 +100,7 @@ const InpostShipmentsPage = () => {
 
 export const config: RouteConfig = {
   link: {
-    label: 'Inpost Shipments',
+    label: "Inpost Shipments",
   },
 };
 

@@ -5,5 +5,7 @@
     "prettier.singleQuote": false,
     "prettier.trailingComma": "es5",
     "prettier.arrowParens": "always",
-    "prettier.endOfLine": "auto"
+    "prettier.endOfLine": "auto",
+    "javascript.preferences.quoteStyle": "double",
+    "typescript.preferences.quoteStyle": "double"
 }
