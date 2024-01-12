@@ -24,6 +24,7 @@ Handle order fulfillments using InPost.
 - Shipment document generation
 - Integration setup in admin panel (Base URL, Organization ID, Token and default template)
 - Return shipments
+- Selecting Points in Admin Draft Orders (Wating for [Extending Existing Admin Components](https://github.com/medusajs/medusa/discussions/5954))
 
 ---
 
