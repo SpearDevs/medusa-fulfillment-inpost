@@ -1,8 +1,6 @@
-<h1 align="center">
-  Medusa Inpost Fulfilment Plugin
-</h1>
+![Medusa Fulfillment InPost Plugin made by SpearDevs](https://github.com/SpearDevs/medusa-fulfillment-inpost/assets/9082934/40b72874-7e74-4f38-bb5e-a449879ad76f)
 
-## Please refrain from using this plugin in a production environment as it is currently in the development phase and may not be stable or fully functional.
+## Caution is advised when deploying this plugin in production, as it is in the MVP stage. While stable, ongoing improvements may be in progress.
 
 # Inpost Fulfillment
 
@@ -24,14 +22,14 @@ Handle order fulfillments using InPost.
 - Shipment document generation
 - Integration setup in admin panel (Base URL, Organization ID, Token and default template)
 - Return shipments
-- Selecting Points in Admin Draft Orders (Wating for [Extending Existing Admin Components](https://github.com/medusajs/medusa/discussions/5954))
+- Selecting Points in Admin Draft Orders (Waiting for [Extending Existing Admin Components](https://github.com/medusajs/medusa/discussions/5954))
 
 ---
 
 ## Prerequisites
 
 - [Medusa backend](https://docs.medusajs.com/development/backend/install)
-- [InPost Account](https://manager.paczkomaty.pl)
+- [InPost account](https://manager.paczkomaty.pl)
 
 ---
 
@@ -72,4 +70,6 @@ const plugins = [
 
 ---
 ## Storefront integration
-The data that storefront needs to send to the backend includes address with required phone number and a target point in the shipment data object.
+The necessary information that the storefront needs to send to the backend includes the address with the required phone number and a designated target point encapsulated within the shipment data object.
+
+In case you require assistance or guidance during the implementation process in your storefront, do not hesitate to reach out to us. Our team is ready to provide the necessary help to ensure a smooth integration. Feel free to contact us for any queries or assistance you may need during the implementation phase.

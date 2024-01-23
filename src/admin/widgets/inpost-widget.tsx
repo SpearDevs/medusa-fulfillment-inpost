@@ -15,7 +15,7 @@ const ParcelDetails = ({ shippingMethod }) => {
 
   return (
     <Container className="mt-base">
-      <h1 className="inter-xlarge-semibold text-grey-90 mb-2">Paczkomat</h1>
+      <h1 className="inter-xlarge-semibold text-grey-90 mb-2">Parcel Locker</h1>
 
       <div className="flex items-center gap-3">
         <img
