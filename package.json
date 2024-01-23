@@ -1,6 +1,6 @@
 {
   "name": "medusa-fulfillment-inpost",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Inpost fulfillment provider for MedusaJS.",
   "author": "SpearDevs <support@speardevs.com>",
   "contributors": [
