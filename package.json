@@ -110,6 +110,5 @@
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node"
-  },
-  "packageManager": "npm@8.19.4"
+  }
 }
