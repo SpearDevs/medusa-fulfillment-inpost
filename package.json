@@ -37,7 +37,7 @@
     "seed": "cross-env medusa seed -f ./data/seed.json",
     "start": "cross-env npm run build && medusa start",
     "start:custom": "cross-env npm run build && node --preserve-symlinks --trace-warnings index.js",
-    "dev": "cross-env npm run build:server && medusa develop"
+    "dev": "nodemon --watch src --exec \"cross-env npm run clean && npm run build:server && npm run build:admin\""
   },
   "dependencies": {},
   "devDependencies": {
