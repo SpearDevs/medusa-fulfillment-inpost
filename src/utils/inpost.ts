@@ -1,29 +1,29 @@
-import axios, { AxiosInstance } from "axios"
+import axios, { AxiosInstance } from "axios";
 
 interface Config {
-  baseUrl: string
-  token: string
-  organizationId: string
+  baseUrl: string;
+  token: string;
+  organizationId: string;
 }
 
 interface PointMethods {
-  list: () => Promise<any>
-  retrieve: (id: any) => Promise<any>
+  list: () => Promise<any>;
+  retrieve: (id: any) => Promise<any>;
 }
 
 interface ShipmentMethods {
-  list: (query?: any) => Promise<any>
-  retrieve: (id: any) => Promise<any>
-  create: (data: any) => Promise<any>
-  update: (id: any, data: any) => Promise<any>
-  cancel: (id: any) => Promise<any>
+  list: (query?: any) => Promise<any>;
+  retrieve: (id: any) => Promise<any>;
+  create: (data: any) => Promise<any>;
+  update: (id: any, data: any) => Promise<any>;
+  cancel: (id: any) => Promise<any>;
 }
 
 class Inpost {
-  client: AxiosInstance
-  config: Config
-  points: PointMethods
-  shipments: ShipmentMethods
+  client: AxiosInstance;
+  config: Config;
+  points: PointMethods;
+  shipments: ShipmentMethods;
 
   constructor(config: Config) {
     /** @private @constant {AxiosInstance} */
@@ -33,20 +33,20 @@ class Inpost {
         "content-type": "application/json",
         Authorization: `Bearer ${config.token}`,
       },
-    })
+    });
 
     /** @private @constant {Config} */
-    this.config = config
+    this.config = config;
 
-    this.points = this.buildPointsEndpoints_()
+    this.points = this.buildPointsEndpoints_();
 
-    this.shipments = this.buildShipmentsEndpoints_()
+    this.shipments = this.buildShipmentsEndpoints_();
   }
 
   getAnyInfo = () => {
     return {
       create: async (data) => {
-        const path = `/v1/organizations/${this.config.organizationId}`
+        const path = `/v1/organizations/${this.config.organizationId}`;
 
         return this.client({
           method: "GET",
@@ -54,83 +54,87 @@ class Inpost {
           data: {
             data,
           },
-        }).then(({ data }) => data)
+        }).then(({ data }) => data);
       },
-    }
-  }
+    };
+  };
 
   buildPointsEndpoints_ = () => {
     return {
       list: async () => {
-        const path = "/v1/points?type=parcel_locker"
+        const path = "/v1/points?type=parcel_locker";
 
         return await this.client({
           method: "GET",
           url: path,
-        }).then(({ data }) => data)
+        }).then(({ data }) => data);
       },
       retrieve: async (id) => {
-        const path = `/v1/points/${id}?type=parcel_locker`
+        const path = `/v1/points/${id}?type=parcel_locker`;
 
         return await this.client({
           method: "GET",
           url: path,
-        }).then(({ data }) => data)
-      }
-    }
-  }
+        }).then(({ data }) => data);
+      },
+    };
+  };
 
   buildShipmentsEndpoints_ = () => {
     return {
       list: async (query?) => {
-        const path = `/v1/organizations/${this.config.organizationId}/shipments`
+        const path = `/v1/organizations/${this.config.organizationId}/shipments`;
 
         return await this.client({
           method: "GET",
           url: path,
           params: query,
-        }).then(({ data }) => data)
+        }).then(({ data }) => data);
       },
       retrieve: async (id) => {
-        const path = `/v1/shipments/${id}`
+        const path = `/v1/shipments/${id}`;
 
         return await this.client({
           method: "GET",
           url: path,
-        }).then(({ data }) => data)
+        }).then(({ data }) => data);
       },
       create: async (data) => {
-        const path = `/v1/organizations/${this.config.organizationId}/shipments`
+        const path = `/v1/organizations/${this.config.organizationId}/shipments`;
 
         return await this.client({
           method: "POST",
           url: path,
           data: {
-            ...data
-          }
-        }).then(({ data }) => data)
+            ...data,
+          },
+        })
+          .then(({ data }) => data)
+          .catch((e) => {
+            console.error("error during shippment creation - ", e);
+          });
       },
       update: async (id, data) => {
-        const path = `/v1/shipments/${id}`
+        const path = `/v1/shipments/${id}`;
 
         return await this.client({
           method: "PUT",
           url: path,
           data: {
-            ...data
+            ...data,
           },
-        }).then(({ data }) => data)
+        }).then(({ data }) => data);
       },
       cancel: async (id) => {
-        const path = `/v1/shipments/${id}`
+        const path = `/v1/shipments/${id}`;
 
         return await this.client({
           method: "DELETE",
           url: path,
-        }).then(({ data }) => data)
-      }
-    }
-  }
+        }).then(({ data }) => data);
+      },
+    };
+  };
 
   // buildDocumentEndpoints_ = () => {
   //   return {
@@ -251,4 +255,4 @@ class Inpost {
   // }
 }
 
-export default Inpost
+export default Inpost;

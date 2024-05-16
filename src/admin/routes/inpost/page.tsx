@@ -15,11 +15,11 @@ const InpostShipmentsPage = () => {
   const navigate = useNavigate();
 
   if (isLoading) {
-    return <Container>Loading...</Container>;
+    return <Container>Ładowanie...</Container>;
   }
 
   if (isError) {
-    return <Container>Error</Container>;
+    return <Container>Błąd</Container>;
   }
 
   const {
@@ -43,7 +43,7 @@ const InpostShipmentsPage = () => {
   return (
     <Container>
       <div className="flex justify-between mb-2">
-        <h1 className="inter-large-semibold">Inpost Shipments</h1>
+        <h1 className="inter-large-semibold">Dostawy Inpost</h1>
 
         <IconButton
           variant="transparent"
@@ -57,10 +57,10 @@ const InpostShipmentsPage = () => {
       <Table>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Shipment ID</Table.HeaderCell>
+            <Table.HeaderCell>ID dostawy</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
-            <Table.HeaderCell>Created at</Table.HeaderCell>
+            <Table.HeaderCell>Data utworzenia</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -100,7 +100,7 @@ const InpostShipmentsPage = () => {
 
 export const config: RouteConfig = {
   link: {
-    label: "Inpost Shipments",
+    label: "Dostawy Inpost",
   },
 };
 
