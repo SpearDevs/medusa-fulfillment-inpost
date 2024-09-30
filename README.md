@@ -70,6 +70,6 @@ const plugins = [
 
 ---
 ## Storefront integration
-The necessary information that the storefront needs to send to the backend includes the address with the required phone number and a designated target point encapsulated within the shipment data object.
+The necessary information that the storefront needs to send to the backend includes the address with the required phone number, while a designated target point needs to be encapsulated within the shipment data object.
 
 In case you require assistance or guidance during the implementation process in your storefront, do not hesitate to reach out to us. Our team is ready to provide the necessary help to ensure a smooth integration. Feel free to contact us for any queries or assistance you may need during the implementation phase.
