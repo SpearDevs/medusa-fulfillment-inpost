@@ -1,10 +1,10 @@
-import { MedusaRequest, MedusaResponse } from "@medusajs/medusa"
+import type { MedusaRequest, MedusaResponse } from "@medusajs/medusa"
 import InpostFulfillmentService from "../../../../../services/inpost-fulfillment"
 
-export async function GET(
+export const GET = async (
   req: MedusaRequest,
   res: MedusaResponse
-): Promise<any> {
+): Promise<any> => {
   const inpostFulfillmentService: InpostFulfillmentService = req.scope.resolve(
     "inpostFulfillmentService"
   )
@@ -25,10 +25,10 @@ export async function GET(
   }
 }
 
-export async function PUT(
+export const PUT = async (
   req: MedusaRequest,
   res: MedusaResponse
-): Promise<any> {
+): Promise<any> => {
   const inpostFulfillmentService: InpostFulfillmentService = req.scope.resolve(
     "inpostFulfillmentService"
   )
@@ -50,10 +50,10 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
+export const DELETE = async (
   req: MedusaRequest,
   res: MedusaResponse
-): Promise<any> {
+): Promise<any> => {
   const inpostFulfillmentService: InpostFulfillmentService = req.scope.resolve(
     "inpostFulfillmentService"
   )

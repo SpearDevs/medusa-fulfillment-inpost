@@ -1,10 +1,10 @@
-import { MedusaRequest, MedusaResponse } from "@medusajs/medusa"
+import type { MedusaRequest, MedusaResponse } from "@medusajs/medusa"
 import InpostFulfillmentService from "../../../../../services/inpost-fulfillment"
 
-export async function GET(
+export const GET = async (
   req: MedusaRequest,
   res: MedusaResponse
-): Promise<any> {
+): Promise<any> => {
   const inpostFulfillmentService: InpostFulfillmentService = req.scope.resolve(
     "inpostFulfillmentService"
   )
