@@ -1,4 +1,4 @@
-![Medusa Fulfillment InPost Plugin made by SpearDevs](https://github.com/SpearDevs/medusa-fulfillment-inpost/assets/9082934/40b72874-7e74-4f38-bb5e-a449879ad76f)
+![Medusa Fulfillment InPost made by SpearDevs](https://github.com/user-attachments/assets/11785778-ce08-44b3-a769-f6da98c71704)
 
 ## Caution is advised when deploying this plugin in production, as it is in the MVP stage. While stable, ongoing improvements may be in progress.
 
@@ -43,12 +43,12 @@ npm install medusa-fulfillment-inpost
 
 2\. Set the following environment variables in `.env`:
 
-  ```bash
-  INPOST_BASE_URL=<YOUR_INPOST_BASE_URL>
-  INPOST_ORGANIZATION_ID=<YOUR_INPOST_ORGANIZATION_ID>
-  INPOST_TOKEN=<YOUR_INPOST_TOKEN>
-  INPOST_DEFAULT_TEMPLATE=<YOUR_INPOST_DEFAULT_TEMPLATE>
-  ```
+```bash
+INPOST_BASE_URL=<YOUR_INPOST_BASE_URL>
+INPOST_ORGANIZATION_ID=<YOUR_INPOST_ORGANIZATION_ID>
+INPOST_TOKEN=<YOUR_INPOST_TOKEN>
+INPOST_DEFAULT_TEMPLATE=<YOUR_INPOST_DEFAULT_TEMPLATE>
+```
 
 3\. In `medusa-config.js` add the following at the end of the `plugins` array:
 
@@ -69,7 +69,9 @@ const plugins = [
 ```
 
 ---
+
 ## Storefront integration
+
 The necessary information that the storefront needs to send to the backend includes the address with the required phone number, while a designated target point needs to be encapsulated within the shipment data object.
 
 In case you require assistance or guidance during the implementation process in your storefront, do not hesitate to reach out to us. Our team is ready to provide the necessary help to ensure a smooth integration. Feel free to contact us for any queries or assistance you may need during the implementation phase.
