@@ -1,25 +1,25 @@
-import { RouteConfig } from "@medusajs/admin";
-import { useAdminCustomQuery } from "medusa-react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { Container, Table, IconButton } from "@medusajs/ui";
-import { ArrowDownCircle } from "@medusajs/icons";
+import { RouteConfig } from "@medusajs/admin"
+import { useAdminCustomQuery } from "medusa-react"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import { Container, Table, IconButton } from "@medusajs/ui"
+import { ArrowDownCircle } from "@medusajs/icons"
 
 const InpostShipmentsPage = () => {
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [searchParams, setSearchParams] = useSearchParams()
 
-  const params = Object.fromEntries(searchParams.entries());
+  const params = Object.fromEntries(searchParams.entries())
 
   const { data, isLoading, isError, refetch, isRefetching } =
-    useAdminCustomQuery(`/inpost/shipments`, ["shipments"], params);
+    useAdminCustomQuery(`/inpost/shipments`, ["shipments"], params)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   if (isLoading) {
-    return <Container>Loading...</Container>;
+    return <Container>Loading...</Container>
   }
 
   if (isError) {
-    return <Container>Error</Container>;
+    return <Container>Error</Container>
   }
 
   const {
@@ -27,18 +27,18 @@ const InpostShipmentsPage = () => {
     count: shipmentsCount,
     per_page: perPage,
     page,
-  } = data;
+  } = data
 
   const updatePage = (delta: number) => {
-    const updatedParams = new URLSearchParams(searchParams);
-    const currentPage = parseInt(params?.page) || 1;
+    const updatedParams = new URLSearchParams(searchParams)
+    const currentPage = parseInt(params?.page) || 1
 
-    updatedParams.set("page", (currentPage + delta).toString());
-    setSearchParams(updatedParams);
-  };
+    updatedParams.set("page", (currentPage + delta).toString())
+    setSearchParams(updatedParams)
+  }
 
-  const previousPage = () => updatePage(-1);
-  const nextPage = () => updatePage(1);
+  const previousPage = () => updatePage(-1)
+  const nextPage = () => updatePage(1)
 
   return (
     <Container>
@@ -66,7 +66,7 @@ const InpostShipmentsPage = () => {
 
         <Table.Body>
           {shipments.map((shipment) => {
-            const date = new Date(shipment.created_at);
+            const date = new Date(shipment.created_at)
 
             return (
               <Table.Row
@@ -79,7 +79,7 @@ const InpostShipmentsPage = () => {
                 <Table.Cell>{shipment.receiver.email}</Table.Cell>
                 <Table.Cell>{date.toLocaleString()}</Table.Cell>
               </Table.Row>
-            );
+            )
           })}
         </Table.Body>
       </Table>
@@ -95,13 +95,13 @@ const InpostShipmentsPage = () => {
         nextPage={nextPage}
       />
     </Container>
-  );
-};
+  )
+}
 
 export const config: RouteConfig = {
   link: {
     label: "Inpost Shipments",
   },
-};
+}
 
-export default InpostShipmentsPage;
+export default InpostShipmentsPage

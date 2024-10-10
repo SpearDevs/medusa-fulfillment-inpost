@@ -1,17 +1,17 @@
-import type { WidgetConfig, OrderDetailsWidgetProps } from "@medusajs/admin";
-import { useAdminCustomQuery } from "medusa-react";
-import { Container } from "@medusajs/ui";
+import type { WidgetConfig, OrderDetailsWidgetProps } from "@medusajs/admin"
+import { useAdminCustomQuery } from "medusa-react"
+import { Container } from "@medusajs/ui"
 
 const ParcelDetails = ({ shippingMethod }) => {
-  const targetPoint = shippingMethod.data.target_point;
+  const targetPoint = shippingMethod.data.target_point
   const { data: point, isError } = useAdminCustomQuery(
     `/inpost/points/${targetPoint}`,
     ["point", targetPoint]
-  );
+  )
 
-  if (!point || isError) return null;
+  if (!point || isError) return null
 
-  const { name, image_url, address_details, opening_hours } = point;
+  const { name, image_url, address_details, opening_hours } = point
 
   return (
     <Container className="mt-base">
@@ -41,21 +41,21 @@ const ParcelDetails = ({ shippingMethod }) => {
         </div>
       </div>
     </Container>
-  );
-};
+  )
+}
 
 const ShipmentDetails = ({ shipmentId }) => {
   const { data: shipment, isError } = useAdminCustomQuery(
     `/inpost/shipments/${shipmentId}`,
     ["shipment", shipmentId]
-  );
+  )
 
-  if (!shipment || isError) return null;
+  if (!shipment || isError) return null
 
-  const { id, status, created_at, updated_at, parcels } = shipment;
+  const { id, status, created_at, updated_at, parcels } = shipment
 
-  const createdAtDate = new Date(created_at);
-  const updatedAtDate = new Date(updated_at);
+  const createdAtDate = new Date(created_at)
+  const updatedAtDate = new Date(updated_at)
 
   return (
     <div className="flex flex-col text-gray-600">
@@ -74,18 +74,18 @@ const ShipmentDetails = ({ shipmentId }) => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
 const InpostWidget = ({ order }: OrderDetailsWidgetProps) => {
   const inpostShippingMethods = order.shipping_methods.filter(
     (method) => method.shipping_option.data?.id === "Parcel Locker"
-  );
+  )
   const inpostFulfilments = order.fulfillments.filter(
     (fulfillment) => fulfillment.data?.shipmentId
-  );
+  )
 
-  if (inpostShippingMethods.length === 0) return null;
+  if (inpostShippingMethods.length === 0) return null
 
   return (
     <>
@@ -106,11 +106,11 @@ const InpostWidget = ({ order }: OrderDetailsWidgetProps) => {
         </Container>
       )}
     </>
-  );
-};
+  )
+}
 
 export const config: WidgetConfig = {
   zone: "order.details.after",
-};
+}
 
-export default InpostWidget;
+export default InpostWidget

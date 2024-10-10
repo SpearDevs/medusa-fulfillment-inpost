@@ -1,24 +1,24 @@
-import { useParams } from "react-router-dom";
-import { useAdminCustomQuery } from "medusa-react";
-import { useNavigate } from "react-router-dom";
-import { Container } from "@medusajs/ui";
+import { useParams } from "react-router-dom"
+import { useAdminCustomQuery } from "medusa-react"
+import { useNavigate } from "react-router-dom"
+import { Container } from "@medusajs/ui"
 
 const InpostSingleShipmentPage = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const { id } = useParams()
+  const navigate = useNavigate()
 
   const {
     data: shipment,
     isLoading,
     isError,
-  } = useAdminCustomQuery(`/inpost/shipments/${id}`, ["shipment", id]);
+  } = useAdminCustomQuery(`/inpost/shipments/${id}`, ["shipment", id])
 
   if (isLoading) {
-    return <Container>Loading...</Container>;
+    return <Container>Loading...</Container>
   }
 
   if (isError) {
-    return <Container>Error</Container>;
+    return <Container>Error</Container>
   }
 
   return (
@@ -80,14 +80,14 @@ const InpostSingleShipmentPage = () => {
                     <p className="capitalize">{key}</p>
                     <p>{value != null ? value.toString() : "-"}</p>
                   </div>
-                );
+                )
               })}
             </div>
           </Container>
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default InpostSingleShipmentPage;
+export default InpostSingleShipmentPage
