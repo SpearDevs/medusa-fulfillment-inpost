@@ -7,12 +7,12 @@ import {
   Order
 } from "@medusajs/medusa"
 import { CreateReturnType } from "@medusajs/medusa/dist/types/fulfillment-provider"
-import Inpost from "../utils/inpost"
+import InpostClient from "../utils/inpost-client"
 
 class InpostFulfillmentService extends AbstractFulfillmentService {
-  static identifier = "inpost-fulfillment";
+  static identifier = "inpost";
 
-  inpost: Inpost
+  inpostClient: InpostClient
   options: any
 
   constructor(container: MedusaContainer, options) {
@@ -23,7 +23,7 @@ class InpostFulfillmentService extends AbstractFulfillmentService {
     this.options.default_template ||= process.env.INPOST_DEFAULT_TEMPLATE
 
     /** @private @const {AxiosClient} */
-    this.inpost = new Inpost({
+    this.inpostClient = new InpostClient({
       baseUrl: this.options.base_url || process.env.INPOST_BASE_URL,
       token: this.options.token || process.env.INPOST_TOKEN,
       organizationId: this.options.organization_id || process.env.INPOST_ORGANIZATION_ID,
@@ -32,7 +32,7 @@ class InpostFulfillmentService extends AbstractFulfillmentService {
 
   async getFulfillmentOptions(): Promise<any[]> {
     return [
-      { id: "Parcel Locker" },
+      { id: "inpost-fulfillment-parcel" },
     ]
   }
 
@@ -41,15 +41,28 @@ class InpostFulfillmentService extends AbstractFulfillmentService {
     data: { [x: string]: unknown },
     cart: Cart
   ): Promise<Record<string, unknown>> {
-    if (optionData.id === "Parcel Locker") {
-      if (cart.shipping_address.phone === null) {
+    if (optionData.id === "inpost-fulfillment-parcel") {
+      const { phone } = cart.shipping_address;
+
+      if (phone === null) {
         throw new Error("Phone number is required")
+      } else {
+        const sanitizedPhone = phone.replace(/\s+/g, '');
+        const phoneRegex = /^(?:(\(?((\+|00)[1-9][0-9]{0,2})\)?)?([0-9]{7,13}))$/;
+
+        if (!phoneRegex.test(sanitizedPhone)) {
+            throw new Error("Invalid phone number format");
+        }
       }
 
       if (!data?.target_point) {
         throw new Error("Target point is required")
       } else {
-        // TODO: validate target point
+        const point = await this.getPoint(data.target_point as string);
+
+        if (point?.key === "point_not_found") {
+          throw new Error("Target point not found");
+        }
       }
     } else {
       throw new Error("Invalid data")
@@ -61,7 +74,7 @@ class InpostFulfillmentService extends AbstractFulfillmentService {
   async validateOption(
     data: { [x: string]: unknown }
   ): Promise<boolean> {
-    return data.id == "Parcel Locker"
+    return data.id == "inpost-fulfillment-parcel"
   }
 
   async canCalculate(
@@ -149,31 +162,31 @@ class InpostFulfillmentService extends AbstractFulfillmentService {
   }
 
   async getPoints(): Promise<any> {
-    return await this.inpost.points.list()
+    return await this.inpostClient.points.list()
   }
 
-  async getPoint(id): Promise<any> {
-    return await this.inpost.points.retrieve(id)
+  async getPoint(id: string): Promise<any> {
+    return await this.inpostClient.points.retrieve(id)
   }
 
   async getShipments(query?): Promise<any> {
-    return await this.inpost.shipments.list(query)
+    return await this.inpostClient.shipments.list(query)
   }
 
-  async getShipment(id): Promise<any> {
-    return await this.inpost.shipments.retrieve(id)
+  async getShipment(id: string): Promise<any> {
+    return await this.inpostClient.shipments.retrieve(id)
   }
 
   async createShipment(data): Promise<any> {
-    return await this.inpost.shipments.create(data)
+    return await this.inpostClient.shipments.create(data)
   }
 
-  async updateShipment(id, data): Promise<any> {
-    return await this.inpost.shipments.update(id, data)
+  async updateShipment(id: string, data): Promise<any> {
+    return await this.inpostClient.shipments.update(id, data)
   }
 
-  async cancelShipment(id): Promise<any> {
-    return await this.inpost.shipments.cancel(id)
+  async cancelShipment(id: string): Promise<any> {
+    return await this.inpostClient.shipments.cancel(id)
   }
 }
 

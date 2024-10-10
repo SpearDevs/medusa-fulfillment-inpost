@@ -1,25 +1,7 @@
 import axios, { AxiosInstance } from "axios"
+import type { Config, PointMethods, ShipmentMethods } from "../types/inpost-client"
 
-interface Config {
-  baseUrl: string
-  token: string
-  organizationId: string
-}
-
-interface PointMethods {
-  list: () => Promise<any>
-  retrieve: (id: any) => Promise<any>
-}
-
-interface ShipmentMethods {
-  list: (query?: any) => Promise<any>
-  retrieve: (id: any) => Promise<any>
-  create: (data: any) => Promise<any>
-  update: (id: any, data: any) => Promise<any>
-  cancel: (id: any) => Promise<any>
-}
-
-class Inpost {
+class InpostClient {
   client: AxiosInstance
   config: Config
   points: PointMethods
@@ -69,7 +51,7 @@ class Inpost {
           url: path,
         }).then(({ data }) => data)
       },
-      retrieve: async (id) => {
+      retrieve: async (id: string) => {
         const path = `/v1/points/${id}?type=parcel_locker`
 
         return await this.client({
@@ -91,7 +73,7 @@ class Inpost {
           params: query,
         }).then(({ data }) => data)
       },
-      retrieve: async (id) => {
+      retrieve: async (id: string) => {
         const path = `/v1/shipments/${id}`
 
         return await this.client({
@@ -110,7 +92,7 @@ class Inpost {
           }
         }).then(({ data }) => data)
       },
-      update: async (id, data) => {
+      update: async (id: string, data) => {
         const path = `/v1/shipments/${id}`
 
         return await this.client({
@@ -121,7 +103,7 @@ class Inpost {
           },
         }).then(({ data }) => data)
       },
-      cancel: async (id) => {
+      cancel: async (id: string) => {
         const path = `/v1/shipments/${id}`
 
         return await this.client({
@@ -251,4 +233,4 @@ class Inpost {
   // }
 }
 
-export default Inpost
+export default InpostClient
